@@ -1,0 +1,111 @@
+CRUD Operations 
+
+C - Create
+R - Read
+U - Update
+D - Delete
+
+
+-Create Operations
+
+app.post('/register', async (req, res) => {
+  
+  const { username, email, password } =  req.body
+  
+  const newUser = await userModel.create({
+    username: username,
+    email:email,
+    password:password
+  })
+
+  res.send(newUser)
+})
+
+
+-Read Operations
+
+app.get('/get-users', (req, res)=>{
+  userModel.find().then((users) => {
+    res.send(users);
+  })
+})
+
+
+Explanation: 
+Here:
+-userModel.find() → This is the READ part.
+-It tells MongoDB: “Fetch all documents from the users collection.”
+-Since you didn’t pass any filter (find({ ... })), it fetches everything.
+- .then((users) => { ... }) → Once MongoDB sends back the documents, users will be an array of objects, each representing a user.
+-res.send(users) → Sends that data back to the client as the response.
+
+
+-Also their are many operations:
+
+app.get('/get-users', (req, res)=>{
+  userModel.find({
+    username: 'b'   // this will be gives you only that user whose username is 'b'.
+  }).then((users) => {
+    res.send(users);
+  })
+})
+
+
+-If you pass a condition that user is not exist in the database then find() returns the empty array [] 
+-find()  => always returns an array, even if no user exists, and returns an empty array if there are no matches.
+
+app.get('/get-users', (req, res)=>{
+  userModel.find({
+    username: 'c'    // it returns the empty array []
+  }).then((users) => {
+    res.send(users);
+  })
+})
+
+
+-If you find only a specific user and if you pass a wrong username then userModel.findOne() => return nothing(null).
+
+-if you pass a specific condition (username) but in the database their are many user exist  as the same name then findOne() return only the first matching user  who is created first in the database.
+
+-findOne() => returns only one user.
+
+-To clarify the behavior and avoid confusion, you should explain that findOne() returns only the first matching user when multiple users have the same username, and consider using find() to get all users with that username.
+
+
+app.get('/get-users', (req, res)=>{
+  userModel.findOne({
+    username: 'aman'
+  }).then((user) => {
+    res.send(user)
+  })
+})
+
+
+-Update Operations
+
+if you want to update operation in the user then first you find the user (Also it is a Asynchronous function, so we use async-await.)
+
+app.get('/update-user', async(req, res) => {
+  await userModel.findOneAndUpdate({
+    username: 'a'
+  }, {
+    email: 'c@c.com'
+  })
+
+  res.send("user-updated");
+})
+
+
+-Delete Operations
+-Also it is a Asynchronous function, so we use async-await.
+
+app.get('/delete-user', async(req, res) => {
+  await userModel.findOneAndDelete({
+    username: 'a'
+  })
+
+  res.send("user-delaeted");
+})
+
+
+
