@@ -7,8 +7,21 @@ dotenv.config({
 })
 
 
-connectDB();
+// connectDB => it is uses asynchronous method. (when asynchronous method is complete technically it returns you a Promise)
+connectDB()
+.then(() => {
+  app.on("error", ()=>{
+    console.log("Express app error: , err");
+    throw err;
+  });
 
+  app.listen(process.env.PORT || 8000, () => {
+    console.log(`Server is running at port : ${process.env.PORT || 8000}`);
+  });
+})
+.catch((err) => {
+  console.log("MONGO db connection failed !!! ", err)
+});
 
 
 
