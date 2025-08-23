@@ -20,7 +20,7 @@ const orderSchema = new mongoose.Schema({
       },
       customer: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user"
+        ref: "User"
       },
       OrderItems: {
         type: [orderItemSchema], // so orderItemSchema is only use by orderItems (so not export if want to export then export.) 
