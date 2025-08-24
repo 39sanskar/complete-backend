@@ -61,7 +61,7 @@ const patientSchema = new mongoose.Schema({
     default: 0
   },
 
-  paymantStatus: {
+  paymentStatus: {
     type: String,
     enum: ["Pending", "Paid", "Partially Paid"],
     default: "Pending"
