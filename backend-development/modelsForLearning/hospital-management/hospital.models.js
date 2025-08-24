@@ -48,7 +48,7 @@ const hospitalSchema = new mongoose.Schema({
     default: 0,
     required: true
   },
-  facitities: [
+  facilities: [
     {
     type: String,
     enum: ["ICU", "Emergency", "Pharmacy", "Lab", "Blood Bank", "Radiology"]
@@ -66,4 +66,4 @@ const hospitalSchema = new mongoose.Schema({
   }
 }, {timestamps: true});
 
-export const Hospital = mongoose.model('HospitaL', hospitalSchema);
+export const Hospital = mongoose.model('Hospital', hospitalSchema);
